@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+</head>
+<style>
+
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: antiquewhite;
+    }
+    #container{
+        width: 90%;
+        margin: 0 auto;
+    }
+    h1{
+        text-align: center;
+        color: #333;
+        padding: 20px 0;
+    }
+    #Book-list{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    .book-card{
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: transform 0.5s;
+        text-align: center;
+    }
+    .book-card:hover{
+        transform: scale(1.05);
+    }
+    .book-card img{
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    .book-card h3{
+        font-size: 18px;
+        margin: 10px 0;
+        color: #333;
+
+    }
+    .book-card p{
+        font-size: 14px;
+        margin: 10px 0;
+        color: #666;
+    }
+    .book-card .price{
+        font-weight: bold;
+        margin-top: 10px;
+        color: #9999;
+    }
+</style>
+<body>
+    <div id="container">
+    <h1>Book Store</h1>
+    <div id="Book-list">
+        <!-- Data come dynamic -->
+    </div>
+</div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded",function(){
+        const booklist = document.getElementById("Book-list")
+        fetch(`https://book-store-krwj.onrender.com/book`)
+        .then(response=>response.json())
+        .then(data=>{
+            let booksHTML = ''
+            data.forEach(book=>{
+                booksHTML += `<div class = "book-card">
+                    <img src=${book.image}>
+                    <h3>${book.title}</h3>
+                    <p class="price">Price:$${book.price}</p>
+                </div>`
+            })
+            booklist.innerHTML = booksHTML
+            console.log(booksHTML)
+        })
+        .catch(error=>{
+            console.error( error)
+            booklist.innerHTML = `<p>Failed Data</p>`
+        })
+    })
+</script>
+</html>
